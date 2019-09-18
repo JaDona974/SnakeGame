@@ -1,0 +1,66 @@
+body
+{
+    text-align: center;
+}
+
+button
+{
+    font-family: arial, sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    text-transform: uppercase;
+    padding : 20px;
+    background-color: #ddd;
+    border-radius: 3px;
+    min-width: 140px;
+    min-height : 130px;
+}
+
+
+
+#buttonSection
+{
+    
+    margin:0px auto;
+}
+
+
+#Start
+{
+    margin-right: 100px;
+    
+}
+#Restart
+{
+    margin-left:100px;
+}
+
+#left
+{
+    margin-right: 70px;
+}
+#right
+{
+    margin-left: 70px;
+}
+
+.directionbtn
+{
+    width : 900px;
+    height : 140px;
+    margin: 0px auto;
+    text-align: center;
+}
+
+#otherbtnSection
+{
+    width: 900px;
+    height : 70px;
+    margin: 0px auto;
+    margin-top : 150px;
+}
+
+.otherbtn
+{
+    
+}
