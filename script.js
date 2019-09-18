@@ -17,27 +17,41 @@ window.onload = function(){
     var gameover = false;
     var gameStart = false;
     
-    //Variables en plus
+    
+
+    //Variables en plus du cours
     var isSwitchingDirection = false;
+    
+    //Pour Button smartphone
+    var btnUp;
+    var btnRight;
+    var btnDown;
+    var btnLeft;
+    var btnStart;
+    var btnRestart;
+    var btnPause;
     
     init();
     
-    //convention de mettre une fonction "init" pour initialiser
+    //mettre une fonction "init" pour initialiser
     function init(){
-        var canvas = document.createElement("canvas");
+        //var canvas = document.createElement("canvas");
+        var canvas = document.getElementById("canvas");
+        
+        
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
         canvas.style.border = "30px solid gray";
-        canvas.style.margin = "50px auto";
+        canvas.style.margin = "30px auto";
         canvas.style.display = "block";
         //ATTENTION "backgroundColor" pas "background-color"
         canvas.style.backgroundColor = "#ddd";
         
-        //document signifie "donne nous le document entier de notre page html
+        //document"" signifie "donne nous le document entier de notre page html"
         //ici appendChild permet d'accrocher un tag au "body"
-        document.body.appendChild(canvas);
+        //document.body.appendChild(canvas);
         
-        //context pour dessiner dans le canvas
+        //context: pour dessiner dans le canvas
         ctx = canvas.getContext("2d"); //dessiner en 2d
         
         
@@ -54,7 +68,7 @@ window.onload = function(){
         gameStart = true;
         console.log("GameStart");
         
-        snakee = new Snake([[4,4],[3,4]], "Right");//son body[] : [6,4] c'est sa tête
+        snakee = new Snake([[4,4],[3,4]], "Right");//son body[] : [4,4] c'est sa tête
         applee = new Apple([10,9]);
         score = 0;
         
@@ -64,20 +78,11 @@ window.onload = function(){
      
     function drawText(){
         ctx.font = "bold 20px sans-serif";
-        ctx.fillStyle ="rgba(255,255,255,0.9)";
-        
-        
-        
+        ctx.fillStyle ="rgba(255,255,255,0.9)";  
         ctx.fillText("Escape : Pause", 10, 590);
-       
-        
-        
-        //ctx.fillText("Pause", centreX-100, centreY);
-        
-        
-        
-        
+                 
     }
+    
     //appelé toutes les (var delay) 100 millisecondes
     function refreshCanvas(){
         if(!onPause){
@@ -96,7 +101,8 @@ window.onload = function(){
                 }
                 while(applee.isOnSnake(snakee)); //tant que la newPosition est SUR snake on cherche une autre position
             }
-
+            
+            //augmentation de la vitesse du snake en fonction du score
             if(score < 10){
                 delay = 100;
             }else if(score >= 10 && score < 20){
@@ -120,12 +126,13 @@ window.onload = function(){
             //fillRect(x, y, width, height) (xy commencent en haut/gauche)
             //ctx.fillRect(xCoord, yCoord, 100, 50); 
             drawText();
-            drawScore(); // En écrivant le drawScore avant il passe devant (sortOrder)
+            drawScore(); // En écrivant le drawScore avant il passe devant (comme un orderInLayer)
                 
             snakee.draw();
             applee.draw();
 
             isSwitchingDirection = false;
+                
             //Execute une fonction à chaque fois qu'un délai est passé
             timeout = setTimeout(refreshCanvas, delay);
             }
@@ -139,7 +146,7 @@ window.onload = function(){
         ctx.fillStyle = "#000";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        //stroke  bordure autour du texte
+        //stroke : bordure autour du texte
         ctx.strokeStyle = "white";
         ctx.lineWidth = 5;
         var centreX = canvasWidth / 2;
@@ -274,7 +281,7 @@ window.onload = function(){
                 }
                 // si la direction est permise
                 // si newDirection n'est pas présent renvoie "-1"
-                // si présent il renvoie l'index (donc 0 ou 1)
+                // si présent il renvoie l'index (donc ici 0 ou 1)
                 if(allowedDirections.indexOf(newDirection) > -1){
                     this.direction = newDirection;
                 }else
@@ -312,7 +319,7 @@ window.onload = function(){
                 }
             }
             
-            return wallCollision || snakeCollision; //Si les deux sont false, ça retourne false. Si un des deux est tru, retourne true
+            return wallCollision || snakeCollision; //Si les deux sont false, ça retourne false. Si un des deux est true, retourne true
         }
         
         this.isEatingApple = function(appleToEat){
@@ -337,7 +344,7 @@ window.onload = function(){
             var y = this.position[1]*blockSize + radius;
             
             //Dessiner le cercle
-            // arc(x, y, startAngle:number, endAngle:number, anticlockwise:bool)
+            //arc(x, y, startAngle:number, endAngle:number, anticlockwise:bool)
             ctx.arc(x,y,radius, 0, Math.PI*2,true);
             ctx.fill();
             ctx.restore();
@@ -356,6 +363,81 @@ window.onload = function(){
             }
             return isOnSnake;
         }
+    }
+    
+    
+    // 3è paramètre ?? "bool capture" ?? sur false 
+    btnUp = document.getElementById("up").addEventListener("click", buttonUp, false);
+    btnRight = document.getElementById("right").addEventListener("click", buttonRight, false);
+    btnDown = document.getElementById("down").addEventListener("click", buttonDown, false);
+    btnLeft = document.getElementById("left").addEventListener("click", buttonLeft, false);
+    
+    btnStart = document.getElementById("Start").addEventListener("click", buttonStart, false);
+    btnRestart = document.getElementById("Restart").addEventListener("click", buttonRestart, false);
+    btnPause = document.getElementById("Pause").addEventListener("click", buttonPause, false);
+    
+    
+    //Boutons Smartphone
+    function buttonUp(){
+        var newDirection = "Up";
+        
+        if(!isSwitchingDirection){
+            isSwitchingDirection = true;
+            snakee.setDirection(newDirection);
+        }  
+    }
+    function buttonRight(){
+        var newDirection = "Right";
+        
+        if(!isSwitchingDirection){
+            isSwitchingDirection = true;
+            snakee.setDirection(newDirection);
+        } 
+    }
+    function buttonDown(){
+        var newDirection = "Down";
+        
+        if(!isSwitchingDirection){
+            isSwitchingDirection = true;
+            snakee.setDirection(newDirection);
+        }
+    }
+    function buttonLeft(){
+        var newDirection = "Left";
+        
+        if(!isSwitchingDirection){
+            isSwitchingDirection = true;
+            snakee.setDirection(newDirection);
+        }
+    }
+    
+    
+    function buttonStart(){
+        console.log("start!!");
+        if(!gameStart){
+            startGame();
+        }
+    }
+    function buttonRestart(){
+        console.log("restart!!");
+        if(!onPause && gameover){
+            gameover = false;
+            restart();
+        }
+    }
+    function buttonPause(){
+        console.log("pause!!");
+        if(!gameover && gameStart){
+            if(!onPause){
+                onPause = true;
+                pause();
+
+            }else{
+                onPause = false;
+                refreshCanvas();
+            }
+        }
+        
     }
     
     document.onkeydown = function handleKeyDown(e) //"e" c'est l'évènement
